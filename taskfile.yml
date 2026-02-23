@@ -39,8 +39,17 @@ tasks:
     cmds:
       - mise install
       - command -v rustup &> /dev/null || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - |
+        if ! command -v sccache &> /dev/null; then
+          if [[ "$(uname)" == "Darwin" ]]; then
+            brew install sccache
+          else
+            sudo apt-get update && sudo apt-get install -y sccache
+          fi
+        fi
       - cargo install rustlings cargo-nextest
     status:
+      - command -v sccache &> /dev/null
       - command -v cargo &> /dev/null
       - command -v rustlings &> /dev/null
       - command -v cargo-nextest &> /dev/null
