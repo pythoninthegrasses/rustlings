@@ -34,9 +34,11 @@ tasks:
   install:
     desc: "Install deps"
     cmds:
+      - mise install
       - cargo install rustlings
       - cargo install cargo-nextest
     status:
+      - command -v cargo &> /dev/null
       - command -v rustlings &> /dev/null
       - command -v cargo-nextest &> /dev/null
 
