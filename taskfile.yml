@@ -51,10 +51,9 @@ tasks:
       - |
         if ! command -v cargo-nextest &> /dev/null; then
           case "$(uname -s)-$(uname -m)" in
-            Darwin-arm64)  target="aarch64-apple-darwin" ;;
-            Darwin-x86_64) target="x86_64-apple-darwin" ;;
-            Linux-aarch64) target="aarch64-unknown-linux-gnu" ;;
-            Linux-x86_64)  target="x86_64-unknown-linux-gnu" ;;
+            Darwin-*)      target="mac" ;;
+            Linux-aarch64) target="linux-arm" ;;
+            Linux-x86_64)  target="linux" ;;
             *) echo "Unsupported platform, falling back to cargo install"; cargo install --locked cargo-nextest; exit 0 ;;
           esac
           curl -LsSf "https://get.nexte.st/latest/${target}" | tar xzf - -C "{{.ROOT_DIR}}/.cache/cargo/bin"
