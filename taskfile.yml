@@ -36,7 +36,7 @@ tasks:
     cmds:
       - mise install
       - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-      - cargo install rustlings cargo-nextest
+      - . "{{.CARGO_HOME}}/env" && cargo install rustlings cargo-nextest
     status:
       - command -v cargo &> /dev/null
       - command -v rustlings &> /dev/null
