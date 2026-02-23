@@ -1,0 +1,90 @@
+version: "3.0"
+
+set: ['e', 'u', 'pipefail']
+shopt: ['globstar']
+
+dotenv: ['.env']
+
+vars:
+  # Reserve 2 cores for system, minimum 1 job
+  BUILD_JOBS: '{{if gt (sub numCPU 2) 0}}{{sub numCPU 2}}{{else}}1{{end}}'
+
+env:
+  # Strip IDE extension paths (e.g. VS Code globalStorage) from PATH so
+  # IDE-bundled tools don't shadow project-pinned versions during builds
+  PATH:
+    sh: 'echo "$PATH" | tr ":" "\n" | grep -v "globalStorage" | paste -sd ":" -'
+  CARGO_HOME: "{{.ROOT_DIR}}/.cache/cargo"
+  CARGO_TARGET_DIR: "{{.ROOT_DIR}}/target"
+  RUSTUP_TOOLCHAIN: nightly
+  RUSTC_WRAPPER: sccache
+  RUSTFLAGS: "-Zthreads={{.BUILD_JOBS}}"
+  CARGO_BUILD_JOBS: "{{.BUILD_JOBS}}"
+
+includes:
+  cargo:
+    taskfile: ./taskfiles/cargo.yml
+
+tasks:
+  default:
+    desc: "Default task"
+    cmds:
+      - task --list
+
+  install:
+    desc: "Install deps"
+    cmds:
+      - cargo install rustlings
+      - cargo install cargo-nextest
+    status:
+      - command -v rustlings &> /dev/null
+      - command -v cargo-nextest &> /dev/null
+
+  pre-commit:
+    desc: "Run pre-commit hooks"
+    cmds:
+      - prek run --all-files
+
+  lint:
+    desc: "Run linters"
+    cmds:
+      - task: cargo:lint
+
+  format:
+    desc: "Run formatters"
+    cmds:
+      - task: cargo:format
+
+  test:
+    desc: "Run tests (Rust + Frontend)"
+    cmds:
+      - task: cargo:test
+
+  build:timings:
+    desc: "Analyze build performance bottlenecks"
+    cmds:
+      - task: cargo:build:timings
+
+  repomix:
+    desc: "Create llm snapshot of repo"
+    preconditions:
+      - sh: command -v repomix 2>/dev/null
+        msg: "repomix is not installed. Install with: npm install -g repomix"
+    cmds:
+      - |
+        repomix \
+          --style markdown \
+          --compress \
+          --remove-comments \
+          --remove-empty-lines \
+          --truncate-base64
+    sources:
+      - "**/*.rs"
+      - "**/*.toml"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.md"
+      - "**/*.json"
+      - ".repomix*"
+    generates:
+      - repomix-output.md
