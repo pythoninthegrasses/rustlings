@@ -1,6 +1,8 @@
 fn main() {
-    // TODO: Change the line below to fix the compiler error.
-    let x;
+    // i32 is the default (inferred) integer type
+    // Can also write as:
+    // let x = 10;
+    let x: i32 = 10;
 
     if x == 10 {
         println!("x is ten!");
