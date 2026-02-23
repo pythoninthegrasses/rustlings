@@ -33,8 +33,6 @@ tasks:
 
   install:
     desc: "Install deps"
-    env:
-      RUSTC_WRAPPER: ""
     cmds:
       - mise install
       - command -v rustup &> /dev/null || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
