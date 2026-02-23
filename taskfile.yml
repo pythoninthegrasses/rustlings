@@ -35,9 +35,10 @@ tasks:
     desc: "Install deps"
     env:
       PATH: '{{env "HOME"}}/.local/bin:{{.ROOT_DIR}}/.cache/cargo/bin:{{env "PATH"}}'
+      RUSTC_WRAPPER: ""
     cmds:
       - mise install
-      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - command -v rustup &> /dev/null || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - cargo install rustlings cargo-nextest
     status:
       - command -v cargo &> /dev/null
