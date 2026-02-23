@@ -2,6 +2,7 @@
 .cache/
 .rustlings-state.txt
 .env*
+CLAUDE.md
 
 # General
 .DS_Store
@@ -55,3 +56,4 @@ target
 # INCLUDE
 !**/*.example
 !**/.gitkeep
+!AGENTS.md
