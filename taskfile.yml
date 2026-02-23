@@ -34,7 +34,7 @@ tasks:
   install:
     desc: "Install deps"
     env:
-      PATH: '{{env "HOME"}}/.local/bin:{{.ROOT_DIR}}/.cache/cargo/bin:{{env "PATH"}}'
+      PATH: '{{env "HOME"}}/.local/share/mise/shims:{{env "HOME"}}/.local/bin:{{.ROOT_DIR}}/.cache/cargo/bin:{{env "PATH"}}'
       RUSTC_WRAPPER: ""
     cmds:
       - mise install
