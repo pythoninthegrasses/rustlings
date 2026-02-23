@@ -47,7 +47,7 @@ tasks:
             sudo apt-get update && sudo apt-get install -y sccache
           fi
         fi
-      - cargo install rustlings cargo-nextest
+      - cargo install --locked rustlings cargo-nextest
     status:
       - command -v sccache &> /dev/null
       - command -v cargo &> /dev/null
