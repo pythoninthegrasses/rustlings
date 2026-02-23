@@ -17,6 +17,9 @@ My local copy of the [rustlings](https://rustlings.rust-lang.org/) exercises.
 # runtimes
 mise install
 
+# env (required for task PATH precedence)
+cp .env.example .env
+
 # deps
 task install
 ```
