@@ -35,12 +35,14 @@ tasks:
     desc: "Install deps"
     cmds:
       - mise install
+      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
       - cargo install rustlings
       - cargo install cargo-nextest
     status:
       - command -v cargo &> /dev/null
       - command -v rustlings &> /dev/null
       - command -v cargo-nextest &> /dev/null
+    silent: true
 
   pre-commit:
     desc: "Run pre-commit hooks"
