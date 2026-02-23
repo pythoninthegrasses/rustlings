@@ -34,7 +34,8 @@ tasks:
   install:
     desc: "Install deps"
     env:
-      PATH: "{{.HOME}}/.local/bin:{{.CARGO_HOME}}/bin:{{.PATH}}"
+      PATH:
+        sh: 'echo "$HOME/.local/bin:$CARGO_HOME/bin:$PATH"'
     cmds:
       - mise install
       - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
