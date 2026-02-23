@@ -1,4 +1,5 @@
 # ETC
+.cache/
 .rustlings-state.txt
 
 # General
