@@ -13,7 +13,7 @@ env:
   # Strip IDE extension paths (e.g. VS Code globalStorage) from PATH so
   # IDE-bundled tools don't shadow project-pinned versions during builds
   PATH:
-    sh: 'echo "$PATH" | tr ":" "\n" | grep -v "globalStorage" | paste -sd ":" -'
+    sh: 'echo "$HOME/.local/share/mise/shims:$HOME/.local/bin:{{.ROOT_DIR}}/.cache/cargo/bin:$PATH" | tr ":" "\n" | grep -v "globalStorage" | paste -sd ":" -'
   CARGO_HOME: "{{.ROOT_DIR}}/.cache/cargo"
   CARGO_TARGET_DIR: "{{.ROOT_DIR}}/target"
   RUSTUP_TOOLCHAIN: nightly
@@ -34,7 +34,6 @@ tasks:
   install:
     desc: "Install deps"
     env:
-      PATH: '{{env "HOME"}}/.local/share/mise/shims:{{env "HOME"}}/.local/bin:{{.ROOT_DIR}}/.cache/cargo/bin:{{env "PATH"}}'
       RUSTC_WRAPPER: ""
     cmds:
       - mise install
